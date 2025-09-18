@@ -1,1 +1,18 @@
-spring.application.name=izilearn
+spring:
+  application:
+    name: izilearn
+  threads:
+    virtual: true
+  profiles:
+    active: test
+  jpa:
+    open-in-view: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+  server:
+    error:
+      include-stacktrace: on_param

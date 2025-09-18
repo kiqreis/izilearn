@@ -1,18 +1,9 @@
 spring:
-  application:
-    name: izilearn
-  threads:
-    virtual: true
-  profiles:
-    active: test
-  jpa:
-    open-in-view: true
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        format_sql: true
-  server:
-    error:
-      include-stacktrace: on_param
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
