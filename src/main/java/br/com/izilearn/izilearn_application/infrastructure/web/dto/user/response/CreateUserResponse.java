@@ -1,10 +1,10 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
 public class CreateUserResponse {
 
     private String name;
