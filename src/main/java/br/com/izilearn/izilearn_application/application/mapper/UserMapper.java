@@ -10,8 +10,13 @@ import org.mapstruct.Mapping;
 public interface UserMapper {
 
     @Mapping(target = "hashPassword", source = "password")
+    @Mapping(target = "urlImage", expression = "java(defaultImage(request.getUrlImage()))")
     User toUser(CreateUserRequest createUserRequest);
 
     CreateUserResponse toCreateUserResponse(User user);
+
+    default String defaultImage(String urlImage) {
+        return urlImage != null ? urlImage : "https://default-image.com/user.png";
+    }
 
 }
