@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.core.domain.model;
 
+import br.com.izilearn.izilearn_application.core.domain.enums.UserStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -30,5 +31,8 @@ public class User {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus userStatus = UserStatus.PENDING;
 
 }
