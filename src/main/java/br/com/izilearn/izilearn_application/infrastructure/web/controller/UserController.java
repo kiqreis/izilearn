@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
+import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
 import br.com.izilearn.izilearn_application.application.usecase.user.CreateUserUseCase;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.CreateUserResponse;
@@ -20,6 +21,7 @@ public class UserController {
 
     private final CreateUserUseCase createUserUseCase;
 
+    @PostResponse
     @PostMapping
     public ResponseEntity<CreateUserResponse> save(@Valid @RequestBody CreateUserRequest request) {
         CreateUserResponse response = createUserUseCase.execute(request);
