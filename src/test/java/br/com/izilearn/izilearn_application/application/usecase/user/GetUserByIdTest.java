@@ -19,10 +19,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GetUserByIdUseCaseTest {
+class GetUserByIdTest {
 
     @InjectMocks
-    private GetUserByIdUseCase useCase;
+    private GetUserById useCase;
 
     @Mock
     private UserRepository userRepository;

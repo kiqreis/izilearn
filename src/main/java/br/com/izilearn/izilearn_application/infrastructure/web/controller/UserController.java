@@ -2,8 +2,8 @@ package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
 import br.com.izilearn.izilearn_application.application.annotations.user.GetResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
-import br.com.izilearn.izilearn_application.application.usecase.user.CreateUserUseCase;
-import br.com.izilearn.izilearn_application.application.usecase.user.GetUserByIdUseCase;
+import br.com.izilearn.izilearn_application.application.usecase.user.CreateUser;
+import br.com.izilearn.izilearn_application.application.usecase.user.GetUserById;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.CreateUserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,13 +20,13 @@ import java.net.URI;
 @Tag(name = "User", description = "Endpoints for managing users")
 public class UserController {
 
-    private final CreateUserUseCase createUserUseCase;
-    private final GetUserByIdUseCase getUserByIdUseCase;
+    private final CreateUser createUser;
+    private final GetUserById getUserById;
 
     @PostResponse
     @PostMapping
     public ResponseEntity<CreateUserResponse> save(@Valid @RequestBody CreateUserRequest request) {
-        CreateUserResponse response = createUserUseCase.execute(request);
+        CreateUserResponse response = createUser.execute(request);
 
         URI location = URI.create(String.format("/user/%s", response.getEmail()));
 
@@ -36,7 +36,7 @@ public class UserController {
     @GetResponse
     @GetMapping("/{id}")
     public ResponseEntity<CreateUserResponse> getById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(getUserByIdUseCase.execute(id));
+        return ResponseEntity.ok(getUserById.execute(id));
     }
 
 }

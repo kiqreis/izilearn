@@ -17,10 +17,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserUseCaseTest {
+class CreateUserTest {
 
     @InjectMocks
-    private CreateUserUseCase useCase;
+    private CreateUser useCase;
 
     @Mock
     private UserRepository userRepository;

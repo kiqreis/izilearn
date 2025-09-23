@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CreateUserUseCase {
+public class CreateUser {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserRepository repository;
+    private final UserMapper mapper;
 
     @Transactional
     public CreateUserResponse execute(CreateUserRequest request) {
-        User user = userMapper.toUser(request);
+        User user = mapper.toUser(request);
 
-        return userMapper.toCreateUserResponse(userRepository.save(user));
+        return mapper.toCreateUserResponse(repository.save(user));
     }
 
 }
