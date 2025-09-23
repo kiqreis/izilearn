@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
+import br.com.izilearn.izilearn_application.application.annotations.user.GetResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
 import br.com.izilearn.izilearn_application.application.usecase.user.CreateUserUseCase;
 import br.com.izilearn.izilearn_application.application.usecase.user.GetUserByIdUseCase;
@@ -32,6 +33,7 @@ public class UserController {
         return ResponseEntity.created(location).body(response);
     }
 
+    @GetResponse
     @GetMapping("/{id}")
     public ResponseEntity<CreateUserResponse> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(getUserByIdUseCase.execute(id));
