@@ -3,7 +3,7 @@ package br.com.izilearn.izilearn_application.application.usecase.user;
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.CreateUserResponse;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ class GetUserByIdTest {
     @Test
     @DisplayName("getUserById returns a CreateUseResponse when successful")
     void getUserById_ReturnsCreateUserResponse_WhenSuccessful() {
-        CreateUserResponse expectedResponse = CreateUserResponse.builder()
+        UserResponse expectedResponse = UserResponse.builder()
                 .name("Jurandir")
                 .email("jurandir@email.com")
                 .build();
@@ -44,7 +44,7 @@ class GetUserByIdTest {
         when(userMapper.toCreateUserResponse(any(User.class)))
                 .thenReturn(expectedResponse);
 
-        CreateUserResponse result = useCase.execute(1L);
+        UserResponse result = useCase.execute(1L);
 
         assertThat(result)
                 .isNotNull()

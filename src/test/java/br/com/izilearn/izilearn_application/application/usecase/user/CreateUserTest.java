@@ -4,7 +4,7 @@ import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.CreateUserResponse;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +44,7 @@ class CreateUserTest {
         user.setName("Jurandir");
         user.setEmail("jurandir@email.com");
 
-        CreateUserResponse expectedResponse = CreateUserResponse.builder()
+        UserResponse expectedResponse = UserResponse.builder()
                 .name("Jurandir")
                 .email("jurandir@email.com")
                 .build();
@@ -58,7 +58,7 @@ class CreateUserTest {
         when(userMapper.toCreateUserResponse(user))
                 .thenReturn(expectedResponse);
 
-        CreateUserResponse result = useCase.execute(request);
+        UserResponse result = useCase.execute(request);
 
         assertThat(result)
                 .isNotNull()

@@ -1,6 +1,6 @@
 package br.com.izilearn.izilearn_application.application.annotations.user;
 
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.CreateUserResponse;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
                         description = "Return a user data",
                         content = @Content(
                                 mediaType = "application/json",
-                                schema = @Schema(implementation = CreateUserResponse.class)
+                                schema = @Schema(implementation = UserResponse.class)
                         )
                 ),
                 @ApiResponse(

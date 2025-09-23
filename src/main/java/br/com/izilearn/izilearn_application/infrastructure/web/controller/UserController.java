@@ -5,7 +5,7 @@ import br.com.izilearn.izilearn_application.application.annotations.user.PostRes
 import br.com.izilearn.izilearn_application.application.usecase.user.CreateUser;
 import br.com.izilearn.izilearn_application.application.usecase.user.GetUserById;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.CreateUserResponse;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +25,8 @@ public class UserController {
 
     @PostResponse
     @PostMapping
-    public ResponseEntity<CreateUserResponse> save(@Valid @RequestBody CreateUserRequest request) {
-        CreateUserResponse response = createUser.execute(request);
+    public ResponseEntity<UserResponse> save(@Valid @RequestBody CreateUserRequest request) {
+        UserResponse response = createUser.execute(request);
 
         URI location = URI.create(String.format("/user/%s", response.getEmail()));
 
@@ -35,7 +35,7 @@ public class UserController {
 
     @GetResponse
     @GetMapping("/{id}")
-    public ResponseEntity<CreateUserResponse> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserResponse> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(getUserById.execute(id));
     }
 
