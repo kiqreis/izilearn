@@ -5,6 +5,7 @@ import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -15,7 +16,7 @@ public interface UserMapper {
 
     UserResponse toCreateUserResponse(User user);
 
-    void updateFromDto(CreateUserRequest createUserRequest, User user);
+    void updateFromDto(CreateUserRequest createUserRequest, @MappingTarget User user);
 
     default String defaultImage(String urlImage) {
         return urlImage != null ? urlImage : "https://default-image.com/user.png";
