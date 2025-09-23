@@ -63,7 +63,7 @@ class CreateUserUseCaseTest {
         assertThat(result)
                 .isNotNull()
                 .extracting("name", "email")
-                .containsExactly("Jurandir", "jurandir@email.com");
+                .containsExactly(expectedResponse.getName(), expectedResponse.getEmail());
     }
 
 }
