@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.when;
@@ -50,6 +51,16 @@ class GetUserByIdTest {
                 .isNotNull()
                 .extracting("name", "email")
                 .containsExactly(expectedResponse.getName(), expectedResponse.getEmail());
+    }
+
+    @Test
+    @DisplayName("getUserById throws exception when user not found")
+    void getUserById_ThrowsException_WhenUserNotFound() {
+        when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> useCase.execute(999L))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("User not found");
     }
 
 }
