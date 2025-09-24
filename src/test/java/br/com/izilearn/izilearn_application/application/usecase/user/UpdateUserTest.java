@@ -3,24 +3,25 @@ package br.com.izilearn.izilearn_application.application.usecase.user;
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.UpdateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.when;
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CreateUserTest {
+class UpdateUserTest {
 
     @InjectMocks
-    private CreateUser useCase;
+    private UpdateUser updateUser;
 
     @Mock
     private UserRepository userRepository;
@@ -29,13 +30,11 @@ class CreateUserTest {
     private UserMapper userMapper;
 
     @Test
-    @DisplayName("createUser returns an UserResponse when successful")
-    void createUser_ReturnsCreateUserResponse_WhenSuccessful() {
-        CreateUserRequest request = CreateUserRequest.builder()
-                .name("Jurandir")
-                .email("jurandir@email.com")
-                .password("Jur@ndir123")
-                .cellphoneNumber("11999999999")
+    @DisplayName("updateUser returns an UserResponse when successful")
+    void updateUser_ReturnsUserResponse_WhenSuccessful() {
+        UpdateUserRequest request = UpdateUserRequest.builder()
+                .name("Jureminha")
+                .email("jureminha@email.com")
                 .build();
 
         User user = new User();
@@ -45,25 +44,27 @@ class CreateUserTest {
         user.setEmail("jurandir@email.com");
 
         UserResponse expectedResponse = UserResponse.builder()
-                .name("Jurandir")
-                .email("jurandir@email.com")
+                .name("Jureminha")
+                .email("jureminha@email.com")
                 .build();
 
-        when(userMapper.toUser(request))
+        when(userRepository.existsById(anyLong())).thenReturn(true);
+
+        when(userRepository.getReferenceById(anyLong()))
                 .thenReturn(user);
 
-        when(userRepository.save(any(User.class)))
-                .thenAnswer(i -> i.getArgument(0));
+        doNothing().when(userMapper).updateFromDto(request, user);
 
         when(userMapper.toUserResponse(user))
                 .thenReturn(expectedResponse);
 
-        UserResponse result = useCase.execute(request);
+        UserResponse result = updateUser.execute(user.getId(), request);
 
         assertThat(result)
                 .isNotNull()
                 .extracting("name", "email")
                 .containsExactly(expectedResponse.getName(), expectedResponse.getEmail());
+
     }
 
 }

@@ -20,7 +20,7 @@ public class CreateUser {
     public UserResponse execute(CreateUserRequest request) {
         User user = mapper.toUser(request);
 
-        return mapper.toCreateUserResponse(repository.save(user));
+        return mapper.toUserResponse(repository.save(user));
     }
 
 }

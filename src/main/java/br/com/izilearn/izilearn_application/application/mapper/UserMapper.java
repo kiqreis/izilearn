@@ -16,7 +16,7 @@ public interface UserMapper {
     @Mapping(target = "urlImage", expression = "java(defaultImage(request.getUrlImage()))")
     User toUser(CreateUserRequest request);
 
-    UserResponse toCreateUserResponse(User user);
+    UserResponse toUserResponse(User user);
 
     @Mapping(target = "hashPassword", source = "password")
     void updateFromDto(UpdateUserRequest request, @MappingTarget User user);

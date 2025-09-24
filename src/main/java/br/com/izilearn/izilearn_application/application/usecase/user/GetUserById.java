@@ -20,7 +20,7 @@ public class GetUserById {
         User user = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return mapper.toCreateUserResponse(user);
+        return mapper.toUserResponse(user);
     }
 
 }

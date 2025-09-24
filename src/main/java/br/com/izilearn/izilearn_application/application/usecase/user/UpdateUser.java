@@ -18,15 +18,15 @@ public class UpdateUser {
 
     @Transactional
     public UserResponse execute(Long id, UpdateUserRequest request) {
-        User user = repository.getReferenceById(id);
-
         if (!repository.existsById(id)) {
             throw new RuntimeException("User not found");
         }
 
+        User user = repository.getReferenceById(id);
+
         mapper.updateFromDto(request, user);
 
-        return mapper.toCreateUserResponse(user);
+        return mapper.toUserResponse(user);
     }
 
 }

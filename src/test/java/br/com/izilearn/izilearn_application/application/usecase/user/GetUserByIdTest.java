@@ -32,7 +32,7 @@ class GetUserByIdTest {
     private UserMapper userMapper;
 
     @Test
-    @DisplayName("getUserById returns a CreateUseResponse when successful")
+    @DisplayName("getUserById returns an UseResponse when successful")
     void getUserById_ReturnsCreateUserResponse_WhenSuccessful() {
         UserResponse expectedResponse = UserResponse.builder()
                 .name("Jurandir")
@@ -42,7 +42,7 @@ class GetUserByIdTest {
         when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(new User()));
 
-        when(userMapper.toCreateUserResponse(any(User.class)))
+        when(userMapper.toUserResponse(any(User.class)))
                 .thenReturn(expectedResponse);
 
         UserResponse result = useCase.execute(1L);
