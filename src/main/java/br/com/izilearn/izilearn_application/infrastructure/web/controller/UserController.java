@@ -2,6 +2,7 @@ package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
 import br.com.izilearn.izilearn_application.application.annotations.user.GetResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
+import br.com.izilearn.izilearn_application.application.annotations.user.PutResponse;
 import br.com.izilearn.izilearn_application.application.usecase.user.CreateUser;
 import br.com.izilearn.izilearn_application.application.usecase.user.GetUserById;
 import br.com.izilearn.izilearn_application.application.usecase.user.UpdateUser;
@@ -42,6 +43,7 @@ public class UserController {
         return ResponseEntity.ok(getUserById.execute(id));
     }
 
+    @PutResponse
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(@PathVariable("id") Long id, @Valid @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(updateUser.execute(id, request));
