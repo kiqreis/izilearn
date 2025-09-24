@@ -4,7 +4,9 @@ import br.com.izilearn.izilearn_application.application.annotations.user.GetResp
 import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
 import br.com.izilearn.izilearn_application.application.usecase.user.CreateUser;
 import br.com.izilearn.izilearn_application.application.usecase.user.GetUserById;
+import br.com.izilearn.izilearn_application.application.usecase.user.UpdateUser;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.UpdateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,6 +24,7 @@ public class UserController {
 
     private final CreateUser createUser;
     private final GetUserById getUserById;
+    private final UpdateUser updateUser;
 
     @PostResponse
     @PostMapping
@@ -37,6 +40,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(getUserById.execute(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> update(@PathVariable("id") Long id, @Valid @RequestBody UpdateUserRequest request) {
+        return ResponseEntity.ok(updateUser.execute(id, request));
     }
 
 }
