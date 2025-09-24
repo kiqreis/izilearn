@@ -3,7 +3,7 @@ package br.com.izilearn.izilearn_application.application.usecase.user;
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
+import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.UpdateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,13 @@ public class UpdateUser {
     private final UserMapper mapper;
 
     @Transactional
-    public UserResponse execute(Long id, CreateUserRequest request) {
+    public UserResponse execute(Long id, UpdateUserRequest request) {
         User user = repository.getReferenceById(id);
+
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+
         mapper.updateFromDto(request, user);
 
         return mapper.toCreateUserResponse(user);
