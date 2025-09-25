@@ -5,6 +5,7 @@ import br.com.izilearn.izilearn_application.application.annotations.user.PostRes
 import br.com.izilearn.izilearn_application.application.annotations.user.PutResponse;
 import br.com.izilearn.izilearn_application.application.usecase.user.CreateUser;
 import br.com.izilearn.izilearn_application.application.usecase.user.GetUserById;
+import br.com.izilearn.izilearn_application.application.usecase.user.ListUsers;
 import br.com.izilearn.izilearn_application.application.usecase.user.UpdateUser;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.UpdateUserRequest;
@@ -12,10 +13,16 @@ import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+
+import static org.springframework.data.domain.Sort.Direction.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +33,7 @@ public class UserController {
     private final CreateUser createUser;
     private final GetUserById getUserById;
     private final UpdateUser updateUser;
+    private final ListUsers listUsers;
 
     @PostResponse
     @PostMapping
@@ -41,6 +49,12 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(getUserById.execute(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<UserResponse>> listUsers(
+            @PageableDefault(size = 5, sort = "name", direction = ASC) Pageable pageable) {
+        return ResponseEntity.ok(listUsers.execute(pageable));
     }
 
     @PutResponse
