@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
+import br.com.izilearn.izilearn_application.application.annotations.user.GetPageResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.GetResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PutResponse;
@@ -51,6 +52,7 @@ public class UserController {
         return ResponseEntity.ok(getUserById.execute(id));
     }
 
+    @GetPageResponse
     @GetMapping
     public ResponseEntity<Page<UserResponse>> listUsers(
             @PageableDefault(size = 5, sort = "name", direction = ASC) Pageable pageable) {
