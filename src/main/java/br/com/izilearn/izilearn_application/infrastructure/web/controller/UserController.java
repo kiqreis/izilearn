@@ -1,9 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
-import br.com.izilearn.izilearn_application.application.annotations.user.GetPageResponse;
-import br.com.izilearn.izilearn_application.application.annotations.user.GetResponse;
-import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
-import br.com.izilearn.izilearn_application.application.annotations.user.PutResponse;
+import br.com.izilearn.izilearn_application.application.annotations.user.*;
 import br.com.izilearn.izilearn_application.application.usecase.user.*;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.UpdateUserRequest;
@@ -62,6 +59,7 @@ public class UserController {
         return ResponseEntity.ok(updateUser.execute(id, request));
     }
 
+    @DeleteResponse
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         deleteUser.execute(id);
