@@ -4,10 +4,7 @@ import br.com.izilearn.izilearn_application.application.annotations.user.GetPage
 import br.com.izilearn.izilearn_application.application.annotations.user.GetResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PostResponse;
 import br.com.izilearn.izilearn_application.application.annotations.user.PutResponse;
-import br.com.izilearn.izilearn_application.application.usecase.user.CreateUser;
-import br.com.izilearn.izilearn_application.application.usecase.user.GetUserById;
-import br.com.izilearn.izilearn_application.application.usecase.user.ListUsers;
-import br.com.izilearn.izilearn_application.application.usecase.user.UpdateUser;
+import br.com.izilearn.izilearn_application.application.usecase.user.*;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.UpdateUserRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
@@ -34,6 +31,7 @@ public class UserController {
     private final GetUserById getUserById;
     private final UpdateUser updateUser;
     private final ListUsers listUsers;
+    private final DeleteUser deleteUser;
 
     @PostResponse
     @PostMapping
@@ -62,6 +60,13 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> update(@PathVariable("id") Long id, @Valid @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(updateUser.execute(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        deleteUser.execute(id);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
