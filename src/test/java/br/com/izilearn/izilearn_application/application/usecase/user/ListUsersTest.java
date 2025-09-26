@@ -103,4 +103,14 @@ class ListUsersTest {
                 .isEqualTo(0);
     }
 
+    @Test
+    @DisplayName("listUsers throws exception when page size exceeds limit")
+    void listUsers_ThrowsException_WhenPageSizeExceedsLimit(){
+        Pageable pageable = PageRequest.of(0, 150);
+
+        assertThatThrownBy(() -> useCase.execute(pageable))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Page size too large");
+    }
+
 }
