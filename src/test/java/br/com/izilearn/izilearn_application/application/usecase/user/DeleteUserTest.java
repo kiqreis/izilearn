@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,6 +31,16 @@ class DeleteUserTest {
 
         assertThatNoException()
                 .isThrownBy(() -> useCase.execute(anyLong()));
+    }
+
+    @Test
+    @DisplayName("deleteUser throws exception when user not found")
+    void deleteUser_ThrowsException_WhenUserNotFound() {
+        given(repository.existsById(anyLong())).willReturn(false);
+
+        assertThatThrownBy(() -> useCase.execute(anyLong()))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("User not found");
     }
 
 }
