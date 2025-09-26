@@ -84,4 +84,23 @@ class ListUsersTest {
                 .isEqualTo(10);
     }
 
+    @Test
+    @DisplayName("listUsers returns empty page when no users found")
+    void listUsers_ReturnsEmptyPage_WhenNoUsersFound() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<User> emptyPage = Page.empty(pageable);
+
+        given(repository.findAll(pageable)).willReturn(emptyPage);
+
+        Page<UserResponse> result = useCase.execute(pageable);
+
+        assertThat(result).isNotNull();
+
+        assertThat(result.getContent())
+                .isEmpty();
+
+        assertThat(result.getTotalElements())
+                .isEqualTo(0);
+    }
+
 }
