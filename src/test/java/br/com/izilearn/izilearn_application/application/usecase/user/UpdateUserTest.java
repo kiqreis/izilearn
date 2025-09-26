@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,15 +47,15 @@ class UpdateUserTest {
                 .email("jureminha@email.com")
                 .build();
 
-        when(userRepository.existsById(anyLong())).thenReturn(true);
+        given(userRepository.existsById(anyLong())).willReturn(true);
 
-        when(userRepository.getReferenceById(anyLong()))
-                .thenReturn(user);
+        given(userRepository.getReferenceById(anyLong()))
+                .willReturn(user);
 
-        doNothing().when(userMapper).updateFromDto(request, user);
+        willDoNothing().given(userMapper).updateFromDto(request, user);
 
-        when(userMapper.toUserResponse(user))
-                .thenReturn(expectedResponse);
+        given(userMapper.toUserResponse(user))
+                .willReturn(expectedResponse);
 
         UserResponse result = updateUser.execute(user.getId(), request);
 
@@ -63,6 +64,22 @@ class UpdateUserTest {
                 .extracting("name", "email")
                 .containsExactly(expectedResponse.getName(), expectedResponse.getEmail());
 
+
+    }
+
+    @Test
+    @DisplayName("updateUser throws an exception when user not found")
+    void updateUser_ThrowsException_WhenUserNotFound() {
+        UpdateUserRequest request = UpdateUserRequest.builder()
+                .name("Jureminha")
+                .email("jureminha@email.com")
+                .build();
+
+        given(userRepository.existsById(anyLong())).willReturn(false);
+
+        assertThatThrownBy(() -> updateUser.execute(999L, request))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("User not found");
     }
 
 }
