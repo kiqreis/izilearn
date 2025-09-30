@@ -15,7 +15,6 @@ public class GetUserById {
     private final UserRepository repository;
     private final UserMapper mapper;
 
-    @Transactional
     public UserResponse execute(Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
