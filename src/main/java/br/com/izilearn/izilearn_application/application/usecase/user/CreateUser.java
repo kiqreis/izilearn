@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.user;
 
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
+import br.com.izilearn.izilearn_application.application.usecase.user.exception.EmailAlreadyExistsException;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
@@ -18,6 +19,10 @@ public class CreateUser {
 
     @Transactional
     public UserResponse execute(CreateUserRequest request) {
+        if (repository.existsByEmail(request.getEmail())) {
+            throw new EmailAlreadyExistsException("Email already registered");
+        }
+
         User user = mapper.toUser(request);
 
         return mapper.toUserResponse(repository.save(user));
