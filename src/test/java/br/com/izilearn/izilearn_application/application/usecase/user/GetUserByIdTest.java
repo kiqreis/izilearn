@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.user;
 
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
+import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
@@ -59,8 +60,8 @@ class GetUserByIdTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(999L))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("User not found");
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User not found by id");
     }
 
 }

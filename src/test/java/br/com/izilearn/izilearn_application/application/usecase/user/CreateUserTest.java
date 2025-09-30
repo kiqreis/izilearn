@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.user;
 
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
+import br.com.izilearn.izilearn_application.application.usecase.user.exception.EmailAlreadyExistsException;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request.CreateUserRequest;
@@ -13,7 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -64,6 +67,23 @@ class CreateUserTest {
                 .isNotNull()
                 .extracting("name", "email")
                 .containsExactly(expectedResponse.getName(), expectedResponse.getEmail());
+    }
+
+    @Test
+    @DisplayName("createUser throws exception when an user already registered")
+    void createUser_ThrowsException_WhenUserAlreadyRegistered() {
+        CreateUserRequest request = CreateUserRequest.builder()
+                .name("Jurandir")
+                .email("jurandir@email.com")
+                .password("Jur@ndir123")
+                .cellphoneNumber("11999999999")
+                .build();
+
+        given(userRepository.existsByEmail(request.getEmail())).willReturn(true);
+
+        assertThatThrownBy(() -> useCase.execute(request))
+                .isInstanceOf(EmailAlreadyExistsException.class)
+                .hasMessage("Email already registered");
     }
 
 }
