@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Operation(
-        summary = "Get user by id",
+        summary = "Get an user",
         tags = {"User"},
         responses = {
                 @ApiResponse(

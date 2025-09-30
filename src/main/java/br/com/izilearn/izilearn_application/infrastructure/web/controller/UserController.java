@@ -26,6 +26,7 @@ public class UserController {
 
     private final CreateUser createUser;
     private final GetUserById getUserById;
+    private final GetUserByEmail getUserByEmail;
     private final UpdateUser updateUser;
     private final ListUsers listUsers;
     private final DeleteUser deleteUser;
@@ -44,6 +45,12 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(getUserById.execute(id));
+    }
+
+    @GetResponse
+    @GetMapping("/by-email/{email}")
+    public ResponseEntity<UserResponse> getByEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok(getUserByEmail.execute(email));
     }
 
     @GetPageResponse
