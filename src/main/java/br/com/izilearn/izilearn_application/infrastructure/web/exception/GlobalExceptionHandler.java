@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.exception;
 
+import br.com.izilearn.izilearn_application.application.usecase.user.exception.EmailAlreadyExistsException;
 import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEmailAlreadyExistsException(EmailAlreadyExistsException e, WebRequest request) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                e.getMessage(),
+                "Email already exists",
+                LocalDateTime.now(),
+                request.getDescription(false)
+                        .replace("uri=", "")
+                        .replace("%40", "@")
+                );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
 }
