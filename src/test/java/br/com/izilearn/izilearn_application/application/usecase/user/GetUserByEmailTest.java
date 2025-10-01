@@ -1,21 +1,21 @@
 package br.com.izilearn.izilearn_application.application.usecase.user;
 
 import br.com.izilearn.izilearn_application.application.mapper.UserMapper;
+import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,6 +51,17 @@ class GetUserByEmailTest {
                 .extracting("name", "email")
                 .containsExactly(expectedResponse.getName(), expectedResponse.getEmail());
 
+    }
+
+    @Test
+    @DisplayName("getUserByEmail throws exception when user not found")
+    void getUserByEmail_ThrowsException_WhenUserNotFound() {
+        given(userRepository.findByEmail(anyString()))
+                .willReturn(Optional.empty());
+
+        assertThatThrownBy(() -> useCase.execute(anyString()))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User not found by email");
     }
 
 }
