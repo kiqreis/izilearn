@@ -33,8 +33,8 @@ class GetUserByIdTest {
     private UserMapper userMapper;
 
     @Test
-    @DisplayName("getUserById returns an UseResponse when successful")
-    void getUserById_ReturnsCreateUserResponse_WhenSuccessful() {
+    @DisplayName("getUserById returns an UserResponse when successful")
+    void getUserById_ReturnsUserResponse_WhenSuccessful() {
         UserResponse expectedResponse = UserResponse.builder()
                 .name("Jurandir")
                 .email("jurandir@email.com")
