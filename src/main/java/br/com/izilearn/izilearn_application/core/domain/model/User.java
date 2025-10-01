@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,5 +45,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus = UserStatus.PENDING;
+
+    @OneToMany(mappedBy = "user")
+    List<Profile> profiles;
 
 }
