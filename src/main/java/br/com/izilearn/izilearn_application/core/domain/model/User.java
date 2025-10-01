@@ -40,6 +40,8 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+//    private LocalDateTime birthDate;
+
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus = UserStatus.PENDING;
 
