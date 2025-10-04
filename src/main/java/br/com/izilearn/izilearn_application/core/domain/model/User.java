@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -41,12 +43,13 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-//    private LocalDateTime birthDate;
+    @Column(nullable = false)
+    private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus = UserStatus.PENDING;
 
-    @OneToMany(mappedBy = "user")
-    List<Profile> profiles;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Profile> profiles  = new ArrayList<>();
 
 }
