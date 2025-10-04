@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.dto.user.request;
 
+import br.com.izilearn.izilearn_application.infrastructure.web.validation.annotation.IsAdult;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class CreateUserRequest {
     @NotBlank(message = "Cellphone number cannot be empty")
     private String cellphoneNumber;
 
+    @IsAdult
     @Past(message = "The date of birth must be in the past")
     @NotNull(message = "The date of birth is mandatory")
     private LocalDate birthDate;
