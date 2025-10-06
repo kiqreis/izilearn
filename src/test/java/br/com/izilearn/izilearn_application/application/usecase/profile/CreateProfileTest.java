@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.profile;
 
 import br.com.izilearn.izilearn_application.application.mapper.ProfileMapper;
+import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.enums.TypeProfile;
 import br.com.izilearn.izilearn_application.core.domain.model.Profile;
 import br.com.izilearn.izilearn_application.core.domain.model.User;
@@ -19,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,6 +87,22 @@ class CreateProfileTest {
                 .isNotNull()
                 .extracting("typeProfile", "userResponse")
                 .containsExactly(expectedResponse.getTypeProfile(), expectedResponse.getUserResponse());
+    }
+
+    @Test
+    @DisplayName("createProfile throws UserNotFoundException when user not found")
+    void createProfile_ThrowsUserNotFoundException_WhenUserNotFound() {
+        CreateProfileRequest request = CreateProfileRequest.builder()
+                .id(999L)
+                .typeProfile(TypeProfile.TEACHER)
+                .build();
+
+        given(userRepository.findById(anyLong()))
+                .willReturn(Optional.empty());
+
+        assertThatThrownBy(() -> useCase.execute(request))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessage("User not found by id");
     }
 
 }
