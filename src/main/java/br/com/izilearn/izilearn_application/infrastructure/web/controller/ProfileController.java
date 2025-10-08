@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.controller;
 
+import br.com.izilearn.izilearn_application.application.annotations.profile.GetResponse;
 import br.com.izilearn.izilearn_application.application.annotations.profile.PostResponse;
 import br.com.izilearn.izilearn_application.application.usecase.profile.CreateProfile;
 import br.com.izilearn.izilearn_application.application.usecase.profile.GetProfilesByUserId;
@@ -28,6 +29,7 @@ public class ProfileController {
                 .body(createProfile.execute(request));
     }
 
+    @GetResponse
     @GetMapping("/{id}")
     public ResponseEntity<ProfileResponse> getAllUserProfiles(@PathVariable("id") Long id) {
         return ResponseEntity.ok(getProfilesByUserId.execute(id));
