@@ -50,6 +50,6 @@ public class User {
     private UserStatus userStatus = UserStatus.PENDING;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    List<Profile> profiles  = new ArrayList<>();
+    List<Profile> profiles = new ArrayList<>();
 
 }
