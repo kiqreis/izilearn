@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,7 +49,6 @@ class CreateProfileTest {
                 .typeProfile(TypeProfile.STUDENT)
                 .build();
 
-
         User user = new User();
         user.setId(userId);
         user.setName("Jurandir");
@@ -59,14 +59,9 @@ class CreateProfileTest {
         profile.setTypeProfile(TypeProfile.STUDENT);
         profile.setUser(user);
 
-        UserResponse userResponse = UserResponse.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .build();
-
         ProfileResponse expectedResponse = ProfileResponse.builder()
-                .typeProfile(TypeProfile.STUDENT)
-                .userResponse(userResponse)
+                .email("jurandir@email.com")
+                .profiles(List.of(TypeProfile.STUDENT))
                 .build();
 
         given(userRepository.findById(anyLong()))
@@ -85,8 +80,8 @@ class CreateProfileTest {
 
         assertThat(response)
                 .isNotNull()
-                .extracting("typeProfile", "userResponse")
-                .containsExactly(expectedResponse.getTypeProfile(), expectedResponse.getUserResponse());
+                .extracting("email", "profiles")
+                .containsExactly(expectedResponse.getEmail(), expectedResponse.getProfiles());
     }
 
     @Test
