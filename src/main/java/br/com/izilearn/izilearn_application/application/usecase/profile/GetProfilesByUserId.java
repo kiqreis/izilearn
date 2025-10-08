@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class GetAllProfiles {
+public class GetProfilesByUserId {
 
     private final ProfileRepository repository;
     private final ProfileMapper profileMapper;
