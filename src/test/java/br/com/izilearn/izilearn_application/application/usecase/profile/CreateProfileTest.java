@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.profile;
 
 import br.com.izilearn.izilearn_application.application.mapper.ProfileMapper;
+import br.com.izilearn.izilearn_application.application.usecase.profile.exception.ProfileAlreadyExistsException;
 import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.enums.TypeProfile;
 import br.com.izilearn.izilearn_application.core.domain.model.Profile;
@@ -41,20 +42,20 @@ class CreateProfileTest {
     @Test
     @DisplayName("createProfile returns a ProfileResponse when successful")
     void createProfile_ReturnsProfileResponse_WhenSuccessful() {
-        Long userId = 1L;
+        Long id = 1L;
 
         CreateProfileRequest request = CreateProfileRequest.builder()
-                .id(userId)
+                .id(id)
                 .typeProfile(TypeProfile.STUDENT)
                 .build();
 
         User user = new User();
-        user.setId(userId);
+        user.setId(id);
         user.setName("Jurandir");
         user.setEmail("jurandir@email.com");
 
         Profile profile = new Profile();
-        profile.setId(userId);
+        profile.setId(id);
         profile.setTypeProfile(TypeProfile.STUDENT);
         profile.setUser(user);
 
@@ -97,6 +98,36 @@ class CreateProfileTest {
         assertThatThrownBy(() -> useCase.execute(request))
                 .isInstanceOf(UserNotFoundException.class)
                 .hasMessage("User not found by id");
+    }
+
+    @Test
+    @DisplayName("createProfile throws ProfileAlreadyExistsException when profile already exists for user")
+    void createProfile_ThrowsProfileAlreadyExistsException_WhenProfileAlreadyExists() {
+        Long id = 1L;
+
+        CreateProfileRequest request = CreateProfileRequest.builder()
+                .id(id)
+                .typeProfile(TypeProfile.STUDENT)
+                .build();
+
+        User user = new User();
+        user.setId(id);
+        user.setName("Jurandir");
+        user.setEmail("jurandir@email.com");
+
+        Profile profile = new Profile();
+        profile.setId(1L);
+        profile.setTypeProfile(TypeProfile.STUDENT);
+        profile.setUser(user);
+
+        user.setProfiles(List.of(profile));
+
+        given(userRepository.findById(id))
+                .willReturn(Optional.of(user));
+
+        assertThatThrownBy(() -> useCase.execute(request))
+                .isInstanceOf(ProfileAlreadyExistsException.class)
+                .hasMessage("User already contains a profile this type");
     }
 
 }
