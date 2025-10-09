@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.profile;
 
 import br.com.izilearn.izilearn_application.application.mapper.ProfileMapper;
+import br.com.izilearn.izilearn_application.application.usecase.profile.exception.ProfileAlreadyExistsException;
 import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.enums.TypeProfile;
 import br.com.izilearn.izilearn_application.core.domain.model.Profile;
@@ -35,7 +36,7 @@ public class CreateProfile {
                 .toList();
 
         if (typeProfiles.contains(request.getTypeProfile())) {
-            throw new RuntimeException("User already contains a profile this type");
+            throw new ProfileAlreadyExistsException("User already contains a profile this type");
         }
 
         Profile profile = mapper.toProfile(request);
