@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.profile;
 
 import br.com.izilearn.izilearn_application.application.mapper.ProfileMapper;
+import br.com.izilearn.izilearn_application.application.usecase.profile.exception.ProfileNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.enums.TypeProfile;
 import br.com.izilearn.izilearn_application.core.domain.model.Profile;
 import br.com.izilearn.izilearn_application.core.domain.repository.ProfileRepository;
@@ -62,7 +63,7 @@ class GetProfilesByUserIdTest {
                 .willReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.execute(999L))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(ProfileNotFoundException.class)
                 .hasMessage("Profile not found");
     }
 
