@@ -1,5 +1,6 @@
 package br.com.izilearn.izilearn_application.infrastructure.web.exception;
 
+import br.com.izilearn.izilearn_application.application.usecase.profile.exception.ProfileAlreadyExistsException;
 import br.com.izilearn.izilearn_application.application.usecase.profile.exception.ProfileNotFoundException;
 import br.com.izilearn.izilearn_application.application.usecase.user.exception.EmailAlreadyExistsException;
 import br.com.izilearn.izilearn_application.application.usecase.user.exception.UserNotFoundException;
@@ -51,7 +52,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 e.getMessage(),
-                "Profile not found",
+                "Profile not found by user id",
                 LocalDateTime.now(),
                 request.getDescription(false)
                         .replace("uri=", "")
@@ -59,6 +60,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(ProfileAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleProfileAlreadyExistsException(ProfileAlreadyExistsException e, WebRequest request) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                e.getMessage(),
+                "Profile already exists by user id",
+                LocalDateTime.now(),
+                request.getDescription(false)
+                        .replace("uri=", "")
+                        .replace("%40", "@")
+        );
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+
     }
 
 }
