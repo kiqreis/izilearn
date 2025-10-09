@@ -1,6 +1,7 @@
 package br.com.izilearn.izilearn_application.application.usecase.profile;
 
 import br.com.izilearn.izilearn_application.application.mapper.ProfileMapper;
+import br.com.izilearn.izilearn_application.application.usecase.profile.exception.ProfileNotFoundException;
 import br.com.izilearn.izilearn_application.core.domain.model.Profile;
 import br.com.izilearn.izilearn_application.core.domain.repository.ProfileRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.profile.response.ProfileResponse;
@@ -16,7 +17,7 @@ public class GetProfilesByUserId {
 
     public ProfileResponse execute(Long id) {
         Profile profile = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found"));
 
         return profileMapper.toProfileResponse(profile);
     }
