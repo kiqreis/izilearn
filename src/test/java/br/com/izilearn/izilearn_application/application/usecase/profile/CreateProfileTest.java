@@ -9,7 +9,6 @@ import br.com.izilearn.izilearn_application.core.domain.repository.ProfileReposi
 import br.com.izilearn.izilearn_application.core.domain.repository.UserRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.profile.request.CreateProfileRequest;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.profile.response.ProfileResponse;
-import br.com.izilearn.izilearn_application.infrastructure.web.dto.user.response.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
