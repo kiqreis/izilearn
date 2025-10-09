@@ -49,7 +49,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus = UserStatus.PENDING;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Profile> profiles = new ArrayList<>();
 
 }

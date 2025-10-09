@@ -23,6 +23,12 @@ public class Profile {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Student student;
+
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Teacher teacher;
+
     @Enumerated(EnumType.STRING)
     private TypeProfile typeProfile;
 
