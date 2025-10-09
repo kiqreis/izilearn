@@ -5,7 +5,6 @@ import br.com.izilearn.izilearn_application.core.domain.enums.TypeProfile;
 import br.com.izilearn.izilearn_application.core.domain.model.Profile;
 import br.com.izilearn.izilearn_application.core.domain.repository.ProfileRepository;
 import br.com.izilearn.izilearn_application.infrastructure.web.dto.profile.response.ProfileResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -38,7 +38,7 @@ class GetProfilesByUserIdTest {
     void getProfilesByUserId_ReturnsProfileResponse_WhenSuccessful() {
         ProfileResponse expectedResponse = ProfileResponse.builder()
                 .email("jurandir@email.com")
-                .profiles(List.of(TypeProfile.TEACHER))
+                .profiles(List.of(TypeProfile.STUDENT, TypeProfile.TEACHER))
                 .build();
 
         given(profileRepository.findById(anyLong()))
@@ -53,6 +53,17 @@ class GetProfilesByUserIdTest {
                 .isNotNull()
                 .extracting("email", "profiles")
                 .containsExactly(expectedResponse.getEmail(), expectedResponse.getProfiles());
+    }
+
+    @Test
+    @DisplayName("getProfilesByUserId throws exception when profile not found")
+    void getProfilesByUserId_ThrowsException_WhenProfileNotFound() {
+        given(profileRepository.findById(anyLong()))
+                .willReturn(Optional.empty());
+
+        assertThatThrownBy(() -> useCase.execute(999L))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("Profile not found");
     }
 
 }
